@@ -248,7 +248,7 @@ IoT 개발자과정 ASP.NET 리포지토리
         - Java 계열도 Spring (Boot) MVC로 개발
         - MVC 개념도
 
-            <img src="" width="730">
+            <img src="https://raw.githubusercontent.com/guswlrla/basic-aspnet-2024/main/images/an002.png" width="730">
 
         - 프론트엔드가 예전엔 스파게티코드가 심했다면, 현재는 스파게티코드가 최소화 되어있음. (SpringBoot, Python flask든 모두 동일)
         - IIS Express Server - VS에서 ASP.NET 웹사이트를 운영하는 개발용 웹서버
