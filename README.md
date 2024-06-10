@@ -204,7 +204,7 @@ IoT 개발자과정 ASP.NET 리포지토리
 
     - 개인 웹페이지 클로닝
 
-## 9일차
+## 8일차
 - ASP.NET
     - ASP.NET 역사
         - 1990년대 MS가 웹 서버기술로 ASP(Active Server Page) -> JSP(Java Server Page)
@@ -286,3 +286,10 @@ IoT 개발자과정 ASP.NET 리포지토리
             ...
             Done.
             ```
+
+## 9일차
+- ASP.NET Core MVC
+    - 필요이론
+    - 연습
+    - 개인 포트폴리오 웹사이트
+    - Bootstrap 테마 적용
