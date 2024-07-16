@@ -5,29 +5,27 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BasicDbHandling.Data;
-using BasicDbHandling.Models;
+using MyPortfolio.Data;
+using MyPortfolio.Models;
 
-namespace BasicDbHandling.Controllers
+namespace MyPortfolio.Controllers
 {
-    // Views/Category 폴더 필요
-    public class CategoryController : Controller
+    public class BoardController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly AppDbContext _context;
 
-        public CategoryController(ApplicationDbContext context)
+        public BoardController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Category
-        // Index.cshtml 웹페이지 파일 필요
+        // GET: Board
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            return View(await _context.Board.ToListAsync());
         }
 
-        // GET: Category/Details/5
+        // GET: Board/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +33,39 @@ namespace BasicDbHandling.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories
+            var board = await _context.Board
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            if (board == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(board);
         }
 
-        // GET: Category/Create
+        // GET: Board/Create
         public IActionResult Create()
         {
-            return View(); // 메서드와 동일한 이름의 웹페이지 Category/Create.cshtml을 리턴!
+            return View();
         }
 
-        // POST: Category/Create
+        // POST: Board/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,DisplayOrder,PostDate")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,Name,UserId,Title,Contents,Hit,RegDate,ModeDate")] Board board)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                _context.Add(board);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(board);
         }
 
-        // GET: Category/Edit/5
+        // GET: Board/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +73,22 @@ namespace BasicDbHandling.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            var board = await _context.Board.FindAsync(id);
+            if (board == null)
             {
                 return NotFound();
             }
-            return View(category);
+            return View(board);
         }
 
-        // POST: Category/Edit/5
+        // POST: Board/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DisplayOrder,PostDate")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,UserId,Title,Contents,Hit,RegDate,ModeDate")] Board board)
         {
-            if (id != category.Id)
+            if (id != board.Id)
             {
                 return NotFound();
             }
@@ -99,12 +97,12 @@ namespace BasicDbHandling.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Update(board);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.Id))
+                    if (!BoardExists(board.Id))
                     {
                         return NotFound();
                     }
@@ -115,10 +113,10 @@ namespace BasicDbHandling.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(board);
         }
 
-        // GET: Category/Delete/5
+        // GET: Board/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,34 +124,34 @@ namespace BasicDbHandling.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories
+            var board = await _context.Board
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            if (board == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(board);
         }
 
-        // POST: Category/Delete/5
+        // POST: Board/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            if (category != null)
+            var board = await _context.Board.FindAsync(id);
+            if (board != null)
             {
-                _context.Categories.Remove(category);
+                _context.Board.Remove(board);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(int id)
+        private bool BoardExists(int id)
         {
-            return _context.Categories.Any(e => e.Id == id);
+            return _context.Board.Any(e => e.Id == id);
         }
     }
 }
