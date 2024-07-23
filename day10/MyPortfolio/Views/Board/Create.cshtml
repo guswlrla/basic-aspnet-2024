@@ -35,17 +35,23 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Contents" class="control-label"></label>
-                        <input asp-for="Contents" class="form-control" />
+                        <!-- textarea는 여는태그랑 닫는 태그를 모두 사용해야 -->
+                        <textarea asp-for="Contents" class="form-control" rows="10"></textarea>
                         <span asp-validation-for="Contents" class="text-danger"></span>
                     </div>
 
                     <div class="form-group pt-3">
-                        <input type="submit" value="저장" class="btn btn-primary" />
+                        <input type="submit" value="저장" class="btn btn-primary"/>
                         <a asp-controller="Board" asp-action="Index" class="btn btn-success">목록</a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
 </section>
+
+@section Scripts {
+    <script>
+        var simplemde = new SimpleMDE({ Element: document.getElementById("Contents") });
+    </script>
+}

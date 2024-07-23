@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyPortfolio.Data;
+using Westwind.AspNetCore.Markdown;
 
 namespace MyPortfolio
 {
@@ -16,6 +17,10 @@ namespace MyPortfolio
                 builder.Configuration.GetConnectionString("MyConnection")
                 ));
 
+            // MarkDown 관련 설정
+            builder.Services.AddMarkdown();
+            builder.Services.AddMvc().AddApplicationPart(typeof(MarkdownPageProcessorMiddleware).Assembly);
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -26,11 +31,11 @@ namespace MyPortfolio
                 app.UseHsts();
             }
 
+            app.UseMarkdown();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.MapControllerRoute(
