@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col text-center">
                     <h3>@Html.DisplayFor(model => model.Title)</h3>
-                </div>
+                </div>                       
             </div>
             <div class="row">
                 <div class="col">
@@ -19,10 +19,10 @@
                 </div>
             </div>
             <div class="row px-2">
-                <div class="col-sm-3">@Html.DisplayFor(model => model.UserId) (@Html.DisplayFor(model => model.Name))</div>
+                <div class="col-sm-3">@Html.DisplayFor(model => model.UserName)</div>
                 <div class="col-sm-9 text-end">
-                    @Html.DisplayFor(model => model.RegDate) 작성<br/>
-                    @Html.DisplayFor(model => model.ModDate) 최종수정
+                    @Html.DisplayFor(model => model.RegDate) 작성<br />
+                    @Html.DisplayFor(model => model.ModDate) 최종수정                           
                 </div>
             </div>
             <div class="row">
@@ -31,29 +31,32 @@
                 </div>
             </div>
             <div class="row p-2">
-                <div class="col">
-                    @* @Html.DisplayFor(model => model.Contents) *@
+                <div class="col" style="min-height:200px">
+                    @* @Html.DisplayFor(model => model.Contents) *@                    
                     @Markdown.ParseHtmlString(Model.Contents)
                 </div>
             </div>
         </div>
-        <div>
-            <a asp-controller="Board" asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">
-                <i class="bi bi-pencil"></i>&nbsp;수정
-            </a>
-            @* <a asp-controller="Board" asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger">
-                <i class="bi bi-trash3"></i>&nbsp;삭제
-            </a> *@
-            @* <a class="btn btn-danger" id="btnDelete">삭제</a> *@
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delModal">
-                <i class="bi bi-trash3"></i>&nbsp;삭제
-            </button>
-            <a asp-controller="Board" asp-action="Index" class="btn btn-success">
-                <i class="bi bi-list"></i>&nbsp;목록
+        <div class="px-2">
+            @if (Context.Session.GetInt32("USER_LOGIN_KEY") != null)
+            {
+                @if (Context.Session.GetString("USER_EMAIL") == @Model?.User?.UserEmail)
+                {
+                    <a asp-controller="Board" asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">
+                        글 수정
+                    </a>
+
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#delModal">글 삭제</button>
+                }                
+            }
+
+            <a asp-controller="Board" asp-action="Index" class="btn btn btn-success">
+                <i class="bi bi-file-earmark-text-fill pe-1"></i>목록
             </a>
         </div>
     </div>
 </section>
+
 
 @section Scripts {
     <!-- 삭제 Modal 창 -->
@@ -61,27 +64,30 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="delModalLabel">삭제여부</h1>
+                    <h1 class="modal-title fs-5" id="delModalLabel">삭제확인</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    정말 삭제하시겠습니까?
+                    삭제하시겠습니까?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="btnDirectDelete">예</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">아니오</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
                 </div>
             </div>
         </div>
     </div>
 
+
     <script>
-        $(document).ready(() => {
+        $(document).ready(() => { 
             // html 화면이 다 렌더링되고 나면 설정들을 하겠다.
-            $('#btnDelete').click(() => {
+            $('#btnDelete').click(() => { 
                 var id = @Model?.Id;
-                if (confirm("삭제하시겠습니까?"))
-                { // 예를 눌렀음
+                // alert(id);
+
+                if (confirm("삭제하시겠습니까?")) { // 예를 눌렀음
+                    // alert(id + '삭제할 거임');
                     $.ajax({
                         url: '/api/BoardRest/' + id,
                         type: 'DELETE',
@@ -95,6 +101,7 @@
 
             $('#btnDirectDelete').click(() => {
                 var id = @Model?.Id;
+                // alert(id + '삭제할 거임');
                 $.ajax({
                     url: '/api/BoardRest/' + id,
                     type: 'DELETE',
@@ -107,4 +114,3 @@
         });
     </script>
 }
-
