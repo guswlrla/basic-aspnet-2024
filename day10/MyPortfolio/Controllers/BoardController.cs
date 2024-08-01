@@ -147,6 +147,8 @@ namespace MyPortfolio.Controllers
                 _context.Add(board); // DB객체에 저장
                 // DB Insert 후 Commit 실행
                 await _context.SaveChangesAsync();
+
+                TempData["success"] = "성공적으로 저장했습니다.";
                 // 게시판 목록화면으로 돌아감
                 return RedirectToAction(nameof(Index));
             }

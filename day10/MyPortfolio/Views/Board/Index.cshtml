@@ -14,6 +14,8 @@
     var num = ViewBag.TotalCount - ((page - 1) * 10); // 전체 게시글 수를 (현재페이지-1)값과 페이지당 게시글수 곱을 빼기
 }
 
+<partial name="_Notification" />
+
 <style>
     /* 마우스가 없을땐 밑줄없이 */
     a {
